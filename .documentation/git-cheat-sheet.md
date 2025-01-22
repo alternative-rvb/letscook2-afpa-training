@@ -14,4 +14,4 @@
 
 Ensuite pour les autres commits
 
-- `git push` 
+- `git push`

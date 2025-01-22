@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import reactLogo from "./assets/react.svg";
 
@@ -6,33 +6,59 @@ import viteLogo from "/vite.svg";
 
 import "./App.css";
 
+import Profile from "./components/Profile";
+import recipes from "./data/recettes.json"
+
+
 // import Hello from "./components/Hello";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const name = "Toto";
+  const [name, setName] = useState("Toto");
+  const [age, setAge] = useState(0);
 
-  const score = [<a href="#">LIEN</a>, "2", "3"];
+  let [counter , setCounter] = useState(0);
+
+  console.log("APP");
+
+  console.log(recipes);
   
-  const person = {
-    name: "Lili",
-    age: 20
+  const r = JSON.stringify(recipes)
+
+  localStorage.setItem("recipes", r);
+
+  useEffect(() => {
+    //Runs only on the first render
+    // alert("Age update")
+    setCounter( (prev => prev + 1))
+  }, [age]);
+
+  function handleAge(e) {
+    console.log(e.target.value);
+    setAge(e.target.value);
   }
+  // fonction addRecipe
 
-  const isMajor = true;
+  // deleteRecipe
 
-  const isDark = true;
-
+  // updateRecipe
 
   return (
-    <main style={isDark ? {background: "black", color: "white"} : {background: "white", color: "black"}}>
+    <main>
+  
+      <p>Compteur: {counter}</p>
+      <input
+        className="border border-black"
+        type="text"
+        value={age}
+        onChange={handleAge}
+      />
 
-      <h1>Hello {name}</h1>
-      <div className="container mx-auto">Lorem ipsum {score}</div>
-      <div>I'm {person.name}</div>
-      {/*  */}
-      <div>Majorité : {isMajor ? "Oui" :"Non"}</div>
-
+      {
+        age >= 18 ? <p>Vous êtes autorisé</p> : <p style={{color: "red"}} >Vous n'êtes pas autorisé</p>
+      }
+      {
+        age >= 18 ? <Profile userName={name} userAge={age} /> : ""
+      }
     </main>
   );
 }
